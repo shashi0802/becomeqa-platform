@@ -1,0 +1,101 @@
+.tutorials-page {
+  min-height: 60vh;
+}
+
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  margin: 0 0 1rem;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.tutorial-category {
+  margin: 4rem 0;
+}
+
+.category-title {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin: 0 0 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #3498db;
+}
+
+.tutorials-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.tutorial-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+}
+
+.tutorial-item:hover {
+  border-color: #3498db;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+  transform: translateX(5px);
+}
+
+.tutorial-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.tutorial-info {
+  flex: 1;
+}
+
+.tutorial-info h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.tutorial-info p {
+  margin: 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.tutorial-arrow {
+  font-size: 1.5rem;
+  color: #3498db;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .tutorial-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .tutorial-arrow {
+    display: none;
+  }
+}
+
+

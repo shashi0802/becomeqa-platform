@@ -1,0 +1,280 @@
+.setup-contentstack-page {
+  min-height: 60vh;
+}
+
+.setup-section {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.setup-section h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin: 0 0 1rem;
+}
+
+.setup-section p {
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 2rem;
+}
+
+.setup-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.loading-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.results {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.results.success {
+  border-color: #27ae60;
+}
+
+.results.has-errors {
+  border-color: #e74c3c;
+}
+
+.results h3 {
+  margin: 0 0 1.5rem;
+  color: #2c3e50;
+}
+
+.result-items {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.result-label {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.result-value {
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+}
+
+.result-value.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.result-value.exists {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.result-value.failed {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.errors {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8d7da;
+  border-radius: 8px;
+  border-left: 4px solid #e74c3c;
+}
+
+.errors h4 {
+  margin: 0 0 1rem;
+  color: #721c24;
+}
+
+.error-item {
+  margin-bottom: 1rem;
+}
+
+.error-item strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #721c24;
+}
+
+.error-item pre {
+  background: white;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  color: #721c24;
+}
+
+.success-message {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #d4edda;
+  border-radius: 8px;
+  border-left: 4px solid #27ae60;
+}
+
+.success-message p {
+  margin: 0.5rem 0;
+  color: #155724;
+}
+
+.instructions {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.instructions h3 {
+  margin: 0 0 1.5rem;
+  color: #2c3e50;
+}
+
+.instruction-section {
+  margin-bottom: 2rem;
+}
+
+.instruction-section h4 {
+  margin: 0 0 1rem;
+  color: #3498db;
+  font-size: 1.2rem;
+}
+
+.instruction-section ol {
+  margin: 0;
+  padding-left: 2rem;
+}
+
+.instruction-section li {
+  margin: 0.5rem 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.info-section {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.info-section h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin: 0 0 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.info-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  margin: 0 0 1rem;
+  color: #2c3e50;
+  font-size: 1.3rem;
+}
+
+.info-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-card li {
+  margin: 0.5rem 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.next-steps {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+}
+
+.next-steps h2 {
+  margin: 0 0 1.5rem;
+  color: white;
+}
+
+.next-steps ol {
+  margin: 0;
+  padding-left: 2rem;
+}
+
+.next-steps li {
+  margin: 0.8rem 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .setup-section,
+  .info-section,
+  .next-steps {
+    padding: 1.5rem;
+  }
+
+  .setup-actions {
+    flex-direction: column;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+

@@ -1,0 +1,52 @@
+.logo-component {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease;
+}
+
+.logo-component:hover {
+  opacity: 0.9;
+}
+
+.logo-img {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(1.1) contrast(1.1);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.logo-text {
+  font-weight: bold;
+  color: inherit;
+}
+
+/* Size variants */
+.logo-small .logo-img {
+  height: 30px;
+}
+
+.logo-small .logo-text {
+  font-size: 1.2rem;
+}
+
+.logo-medium .logo-img {
+  height: 40px;
+}
+
+.logo-medium .logo-text {
+  font-size: 1.5rem;
+}
+
+.logo-large .logo-img {
+  height: 50px;
+}
+
+.logo-large .logo-text {
+  font-size: 2rem;
+}
+
