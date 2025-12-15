@@ -1,7 +1,8 @@
 // Contentstack Configuration
+// IMPORTANT: Set these values in your .env file, never commit credentials!
 export const CONTENTSTACK_CONFIG = {
-  apiKey: import.meta.env.VITE_CONTENTSTACK_API_KEY || 'blt40b71ea54ec5498b',
-  managementToken: import.meta.env.VITE_CONTENTSTACK_MANAGEMENT_TOKEN || 'cs35d6b09d42194c1b7c4cf541',
+  apiKey: import.meta.env.VITE_CONTENTSTACK_API_KEY || '',
+  managementToken: import.meta.env.VITE_CONTENTSTACK_MANAGEMENT_TOKEN || '',
   apiUrl: import.meta.env.VITE_CONTENTSTACK_API_URL || 'https://api.contentstack.io/v3',
 };
 
