@@ -17,7 +17,7 @@ class ContentstackService {
   async getEntries(contentType, queryParams = {}) {
     try {
       const params = {
-        environment: queryParams.environment || 'production',
+        environment: queryParams.environment || 'development',
         locale: queryParams.locale || 'en-us',
         ...queryParams,
       };
@@ -47,7 +47,7 @@ class ContentstackService {
   async getEntry(contentType, entryUid, queryParams = {}) {
     try {
       const params = {
-        environment: queryParams.environment || 'production',
+        environment: queryParams.environment || 'development',
         locale: queryParams.locale || 'en-us',
         ...queryParams,
       };
@@ -95,7 +95,7 @@ class ContentstackService {
   async getAssets(queryParams = {}) {
     try {
       const params = {
-        environment: queryParams.environment || 'production',
+        environment: queryParams.environment || 'development',
         ...queryParams,
       };
 
@@ -124,7 +124,7 @@ class ContentstackService {
   async searchEntries(contentType, query = {}, queryParams = {}) {
     try {
       const params = {
-        environment: queryParams.environment || 'production',
+        environment: queryParams.environment || 'development',
         locale: queryParams.locale || 'en-us',
         query: JSON.stringify(query),
         ...queryParams,
