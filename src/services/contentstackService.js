@@ -2,6 +2,7 @@ import axios from 'axios';
 import { CONTENTSTACK_CONFIG, getContentstackHeaders, getDeliveryHeaders } from '../config/contentstack';
 
 const API_BASE_URL = CONTENTSTACK_CONFIG.apiUrl;
+const MANAGEMENT_API_URL = 'https://api.contentstack.io/v3';
 
 /**
  * Contentstack Service
@@ -164,6 +165,30 @@ class ContentstackService {
         : null;
     } catch (error) {
       console.error(`Error fetching global content for ${contentType}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new entry in Contentstack
+   * @param {string} contentType - Content type UID
+   * @param {object} entryData - Entry data to create
+   * @param {string} locale - Locale (default: en-us)
+   * @returns {Promise} - Created entry data
+   */
+  async createEntry(contentType, entryData, locale = 'en-us') {
+    try {
+      const response = await axios.post(
+        `${MANAGEMENT_API_URL}/content_types/${contentType}/entries?locale=${locale}`,
+        { entry: entryData },
+        {
+          headers: getContentstackHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(`Error creating entry for ${contentType}:`, error);
       throw error;
     }
   }

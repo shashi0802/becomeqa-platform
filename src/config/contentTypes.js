@@ -43,6 +43,9 @@ TUTORIALS_PAGE: 'tutorials_page',
   // About
   ABOUT_PAGE: 'about_page',
   TEAM_MEMBER: 'team_member',
+  
+  // Enrollment Submissions
+  ENROLLMENT_SUBMISSION: 'enrollment_submission',
 };
 
 /**

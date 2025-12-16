@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useContentstackGlobal } from '../hooks/useContentstack';
 import { CONTENT_TYPES } from '../config/contentTypes';
 import { getFieldValue } from '../utils/contentHelpers';
+import contentstackService from '../services/contentstackService';
 import './Enrollment.css';
 
 const Enrollment = () => {
@@ -58,6 +59,8 @@ const Enrollment = () => {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,24 +70,60 @@ const Enrollment = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Enrollment data:', formData);
-    setIsSubmitted(true);
-    
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        experience: '',
-        trainingType: 'individual',
-        batchDate: batchDates[0]?.date_value || '2025-02-04',
-        message: ''
-      });
-    }, 3000);
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // Create entry title: "Course Name - User Full Name"
+      const courseName = pageTitle.replace('Enroll in ', '').replace('Training', '').trim() || 'Selenium';
+      const userName = `${formData.firstName} ${formData.lastName}`;
+      const entryTitle = `${courseName} - ${userName}`;
+
+      // Prepare entry data for Contentstack
+      const entryData = {
+        title: entryTitle,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        experience: formData.experience,
+        training_type: formData.trainingType,
+        batch_date: formData.batchDate,
+        message: formData.message || '',
+        enrollment_date: new Date().toISOString(),
+        status: 'pending'
+      };
+
+      // Create entry in Contentstack
+      await contentstackService.createEntry(
+        CONTENT_TYPES.ENROLLMENT_SUBMISSION,
+        entryData
+      );
+
+      console.log('Enrollment submitted successfully:', entryData);
+      setIsSubmitted(true);
+      
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          experience: '',
+          trainingType: 'individual',
+          batchDate: batchDates[0]?.date_value || '2025-02-04',
+          message: ''
+        });
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting enrollment:', error);
+      setSubmitError('Failed to submit enrollment. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -263,8 +302,18 @@ const Enrollment = () => {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary btn-large btn-submit">
-                {submitBtnText}
+              {submitError && (
+                <div className="error-message">
+                  {submitError}
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-large btn-submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Submitting...' : submitBtnText}
               </button>
 
               <p className="form-note">
