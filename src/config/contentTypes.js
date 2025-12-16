@@ -14,7 +14,9 @@ export const CONTENT_TYPES = {
   // Tutorials
   TUTORIAL: 'tutorial',
   TUTORIAL_CATEGORY: 'tutorial_category',
-  
+TUTORIALS_PAGE: 'tutorials_page',
+  TRAINING_PAGE: 'training_page',
+
   // Training
   TRAINING_PROGRAM: 'training_program',
   COURSE_MODULE: 'course_module',
@@ -32,18 +34,25 @@ export const CONTENT_TYPES = {
   FOOTER: 'footer',
   
   // Demo
+  DEMO_PAGE: 'demo_page',
   DEMO_FEATURE: 'demo_feature',
+  
+  // Enrollment
+  ENROLLMENT_PAGE: 'enrollment_page',
   
   // About
   ABOUT_PAGE: 'about_page',
   TEAM_MEMBER: 'team_member',
+  
+  // Enrollment
+  ENROLLMENT_PAGE: 'enrollment_page',
 };
 
 /**
  * Default query parameters for different environments
  */
 export const DEFAULT_QUERY_PARAMS = {
-  environment: 'production', // or 'development', 'staging'
+  environment: 'development', // or 'production', 'staging'
   locale: 'en-us',
   include_count: true,
   include_global_field_schema: false,

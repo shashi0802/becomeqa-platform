@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useContentstackGlobal } from '../hooks/useContentstack';
+import { CONTENT_TYPES } from '../config/contentTypes';
+import { getFieldValue } from '../utils/contentHelpers';
 import './Tutorials.css';
 
 const Tutorials = () => {
-  const tutorialCategories = [
+  // Fetch tutorials page content from Contentstack
+  const { data: tutorialsData, loading, error } = useContentstackGlobal(CONTENT_TYPES.TUTORIALS_PAGE);
+
+  // Default tutorial categories
+  const defaultCategories = [
     {
-      title: 'Front-End Testing Automation',
+      category_title: 'Front-End Testing Automation',
       tutorials: [
         { name: 'Selenium', description: 'Learn Selenium WebDriver automation', icon: '🔷' },
         { name: 'Cypress', description: 'Modern end-to-end testing framework', icon: '⚡' },
@@ -14,7 +21,7 @@ const Tutorials = () => {
       ]
     },
     {
-      title: 'Back-End Testing Automation',
+      category_title: 'Back-End Testing Automation',
       tutorials: [
         { name: 'Rest Assured', description: 'API testing with Java', icon: '🔶' },
         { name: 'Postman', description: 'API development and testing', icon: '📮' },
@@ -22,13 +29,13 @@ const Tutorials = () => {
       ]
     },
     {
-      title: 'Mobile Testing Automation',
+      category_title: 'Mobile Testing Automation',
       tutorials: [
         { name: 'Appium Studio', description: 'Mobile app automation testing', icon: '📱' },
       ]
     },
     {
-      title: 'Frameworks & Libraries',
+      category_title: 'Frameworks & Libraries',
       tutorials: [
         { name: 'Cucumber', description: 'BDD testing framework', icon: '🥒' },
         { name: 'TestNG', description: 'Testing framework for Java', icon: '🧪' },
@@ -36,7 +43,7 @@ const Tutorials = () => {
       ]
     },
     {
-      title: 'DevOps Tools',
+      category_title: 'DevOps Tools',
       tutorials: [
         { name: 'Maven', description: 'Build automation tool', icon: '📦' },
         { name: 'Git', description: 'Version control system', icon: '🔀' },
@@ -44,7 +51,7 @@ const Tutorials = () => {
       ]
     },
     {
-      title: 'QA Practices',
+      category_title: 'QA Practices',
       tutorials: [
         { name: 'ISTQB', description: 'ISTQB certification preparation', icon: '📚' },
         { name: 'Software Testing', description: 'Fundamentals of software testing', icon: '✅' },
@@ -53,24 +60,35 @@ const Tutorials = () => {
     },
   ];
 
+  // Get values from Contentstack or use defaults
+  const pageTitle = tutorialsData ? getFieldValue(tutorialsData, 'page_title') : 'Tutorials';
+  const pageDescription = tutorialsData ? getFieldValue(tutorialsData, 'page_description') : 'Comprehensive tutorials on various testing tools and methodologies';
+  const tutorialCategories = tutorialsData ? (getFieldValue(tutorialsData, 'tutorial_categories') || defaultCategories) : defaultCategories;
+
+  // Helper function to generate tutorial link
+  const getTutorialLink = (tutorial) => {
+    if (tutorial.link) return tutorial.link;
+    return `/tutorials/${tutorial.name.toLowerCase().replace(/\s+/g, '-')}`;
+  };
+
   return (
     <div className="tutorials-page">
       <div className="page-header">
         <div className="container">
-          <h1>Tutorials</h1>
-          <p>Comprehensive tutorials on various testing tools and methodologies</p>
+          <h1>{pageTitle}</h1>
+          <p>{pageDescription}</p>
         </div>
       </div>
 
       <div className="container">
         {tutorialCategories.map((category, categoryIndex) => (
           <section key={categoryIndex} className="tutorial-category">
-            <h2 className="category-title">{category.title}</h2>
+            <h2 className="category-title">{category.category_title || category.title}</h2>
             <div className="tutorials-list">
-              {category.tutorials.map((tutorial, tutorialIndex) => (
+              {(category.tutorials || []).map((tutorial, tutorialIndex) => (
                 <Link
                   key={tutorialIndex}
-                  to={`/tutorials/${tutorial.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  to={getTutorialLink(tutorial)}
                   className="tutorial-item"
                 >
                   <div className="tutorial-icon">{tutorial.icon}</div>
@@ -90,5 +108,3 @@ const Tutorials = () => {
 };
 
 export default Tutorials;
-
-

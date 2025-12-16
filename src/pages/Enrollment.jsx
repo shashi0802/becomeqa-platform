@@ -1,7 +1,51 @@
 import { useState } from 'react';
+import { useContentstackGlobal } from '../hooks/useContentstack';
+import { CONTENT_TYPES } from '../config/contentTypes';
+import { getFieldValue } from '../utils/contentHelpers';
 import './Enrollment.css';
 
 const Enrollment = () => {
+  // Fetch enrollment page content from Contentstack
+  const { data: enrollmentData, loading, error } = useContentstackGlobal(CONTENT_TYPES.ENROLLMENT_PAGE);
+
+  // Default values
+  const defaultBenefits = [
+    { text: 'Expert instructors with industry experience', benefit_text: 'Expert instructors with industry experience' },
+    { text: 'Comprehensive curriculum covering all aspects', benefit_text: 'Comprehensive curriculum covering all aspects' },
+    { text: 'Hands-on practice with real-world projects', benefit_text: 'Hands-on practice with real-world projects' },
+    { text: 'Flexible learning with recorded sessions', benefit_text: 'Flexible learning with recorded sessions' },
+    { text: 'Certificate of completion', benefit_text: 'Certificate of completion' },
+    { text: 'Lifetime access to course materials', benefit_text: 'Lifetime access to course materials' },
+    { text: 'Support from instructors and community', benefit_text: 'Support from instructors and community' },
+    { text: 'Career guidance and placement assistance', benefit_text: 'Career guidance and placement assistance' },
+  ];
+
+  const defaultHighlights = [
+    { number: '10+', label: 'Modules', text: 'Modules' },
+    { number: '40+', label: 'Hours', text: 'Hours' },
+    { number: '100+', label: 'Assignments', text: 'Assignments' },
+    { number: '24/7', label: 'Support', text: 'Support' },
+  ];
+
+  const defaultBatchDates = [
+    { date_value: '2025-02-04', date_label: '04-Feb-2025' },
+    { date_value: '2025-03-04', date_label: '04-Mar-2025' },
+    { date_value: '2025-04-04', date_label: '04-Apr-2025' },
+  ];
+
+  // Get values from Contentstack or use defaults
+  const pageTitle = enrollmentData ? getFieldValue(enrollmentData, 'page_title') : 'Enroll in Selenium Training';
+  const pageSubtitle = enrollmentData ? getFieldValue(enrollmentData, 'page_subtitle') : 'Join our next batch starting from 04-Feb-2025';
+  const benefitsTitle = enrollmentData ? getFieldValue(enrollmentData, 'benefits_title') : 'Why Enroll with Us?';
+  const benefits = enrollmentData ? (getFieldValue(enrollmentData, 'benefits') || defaultBenefits) : defaultBenefits;
+  const highlightsTitle = enrollmentData ? getFieldValue(enrollmentData, 'highlights_title') : 'Course Highlights';
+  const courseHighlights = enrollmentData ? (getFieldValue(enrollmentData, 'course_highlights') || defaultHighlights) : defaultHighlights;
+  const formTitle = enrollmentData ? getFieldValue(enrollmentData, 'form_title') : 'Fill in Your Details';
+  const batchDates = enrollmentData ? (getFieldValue(enrollmentData, 'batch_dates') || defaultBatchDates) : defaultBatchDates;
+  const submitBtnText = enrollmentData ? getFieldValue(enrollmentData, 'submit_btn_text') : 'Submit Enrollment';
+  const successTitle = enrollmentData ? getFieldValue(enrollmentData, 'success_title') : 'Enrollment Submitted Successfully!';
+  const successMessage = enrollmentData ? getFieldValue(enrollmentData, 'success_message') : 'Thank you for your interest. We will contact you shortly with further details.';
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -9,7 +53,7 @@ const Enrollment = () => {
     phone: '',
     experience: '',
     trainingType: 'individual',
-    batchDate: '2025-02-04',
+    batchDate: batchDates[0]?.date_value || '2025-02-04',
     message: ''
   });
 
@@ -25,11 +69,9 @@ const Enrollment = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the data to a backend
     console.log('Enrollment data:', formData);
     setIsSubmitted(true);
     
-    // Reset form after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
@@ -39,7 +81,7 @@ const Enrollment = () => {
         phone: '',
         experience: '',
         trainingType: 'individual',
-        batchDate: '2025-02-04',
+        batchDate: batchDates[0]?.date_value || '2025-02-04',
         message: ''
       });
     }, 3000);
@@ -51,8 +93,8 @@ const Enrollment = () => {
         <div className="container">
           <div className="success-message">
             <div className="success-icon">✓</div>
-            <h2>Enrollment Submitted Successfully!</h2>
-            <p>Thank you for your interest. We will contact you shortly with further details.</p>
+            <h2>{successTitle}</h2>
+            <p>{successMessage}</p>
             <p className="success-note">You will receive a confirmation email at {formData.email}</p>
           </div>
         </div>
@@ -64,51 +106,36 @@ const Enrollment = () => {
     <div className="enrollment-page">
       <div className="page-header">
         <div className="container">
-          <h1>Enroll in Selenium Training</h1>
-          <p>Join our next batch starting from 04-Feb-2025</p>
+          <h1>{pageTitle}</h1>
+          <p>{pageSubtitle}</p>
         </div>
       </div>
 
       <div className="container">
         <div className="enrollment-content">
           <div className="enrollment-info">
-            <h2>Why Enroll with Us?</h2>
+            <h2>{benefitsTitle}</h2>
             <ul className="benefits-list">
-              <li>✓ Expert instructors with industry experience</li>
-              <li>✓ Comprehensive curriculum covering all aspects</li>
-              <li>✓ Hands-on practice with real-world projects</li>
-              <li>✓ Flexible learning with recorded sessions</li>
-              <li>✓ Certificate of completion</li>
-              <li>✓ Lifetime access to course materials</li>
-              <li>✓ Support from instructors and community</li>
-              <li>✓ Career guidance and placement assistance</li>
+              {benefits.map((benefit, index) => (
+                <li key={index}>✓ {benefit.benefit_text || benefit.text}</li>
+              ))}
             </ul>
 
             <div className="course-highlights">
-              <h3>Course Highlights</h3>
+              <h3>{highlightsTitle}</h3>
               <div className="highlights-grid">
-                <div className="highlight-item">
-                  <span className="highlight-number">10+</span>
-                  <span className="highlight-text">Modules</span>
-                </div>
-                <div className="highlight-item">
-                  <span className="highlight-number">40+</span>
-                  <span className="highlight-text">Hours</span>
-                </div>
-                <div className="highlight-item">
-                  <span className="highlight-number">100+</span>
-                  <span className="highlight-text">Assignments</span>
-                </div>
-                <div className="highlight-item">
-                  <span className="highlight-number">24/7</span>
-                  <span className="highlight-text">Support</span>
-                </div>
+                {courseHighlights.map((highlight, index) => (
+                  <div key={index} className="highlight-item">
+                    <span className="highlight-number">{highlight.number}</span>
+                    <span className="highlight-text">{highlight.text || highlight.label}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
           <div className="enrollment-form-container">
-            <h2>Fill in Your Details</h2>
+            <h2>{formTitle}</h2>
             <form className="enrollment-form" onSubmit={handleSubmit}>
               <div className="form-row">
                 <div className="form-group">
@@ -218,9 +245,9 @@ const Enrollment = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="2025-02-04">04-Feb-2025</option>
-                  <option value="2025-03-04">04-Mar-2025</option>
-                  <option value="2025-04-04">04-Apr-2025</option>
+                  {batchDates.map((batch, index) => (
+                    <option key={index} value={batch.date_value}>{batch.date_label}</option>
+                  ))}
                 </select>
               </div>
 
@@ -237,7 +264,7 @@ const Enrollment = () => {
               </div>
 
               <button type="submit" className="btn btn-primary btn-large btn-submit">
-                Submit Enrollment
+                {submitBtnText}
               </button>
 
               <p className="form-note">
@@ -252,5 +279,3 @@ const Enrollment = () => {
 };
 
 export default Enrollment;
-
-
