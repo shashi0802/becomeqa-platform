@@ -1,14 +1,65 @@
 import { useParams, Link } from 'react-router-dom';
-import { useContentstackGlobal } from '../hooks/useContentstack';
+import { useState, useEffect } from 'react';
+import contentstackService from '../services/contentstackService';
 import { CONTENT_TYPES } from '../config/contentTypes';
-import { getFieldValue } from '../utils/contentHelpers';
 import './TutorialDetail.css';
 
 const TutorialDetail = () => {
   const { tutorialSlug } = useParams();
-  
-  // Fetch tutorial detail content from Contentstack
-  const { data: tutorialData, loading, error } = useContentstackGlobal(CONTENT_TYPES.TUTORIAL_DETAIL);
+  const [tutorial, setTutorial] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch tutorial by slug from Contentstack
+  useEffect(() => {
+    const fetchTutorial = async () => {
+      try {
+        setLoading(true);
+        const response = await contentstackService.searchEntries(
+          CONTENT_TYPES.TUTORIAL_DETAIL,
+          { slug: tutorialSlug }
+        );
+        
+        if (response.entries && response.entries.length > 0) {
+          const entry = response.entries[0];
+          // Transform Contentstack data to component format
+          setTutorial({
+            name: entry.title,
+            icon: entry.icon,
+            tagline: entry.tagline,
+            duration: entry.duration,
+            modules: entry.modules,
+            projects: entry.projects,
+            certification: entry.certification,
+            paragraphs: (entry.paragraphs || []).map(p => ({
+              title: p.paragraph_title,
+              content: p.paragraph_content
+            }))
+          });
+        } else {
+          // Fallback to default data if not found in Contentstack
+          const defaultTutorial = getDefaultTutorial(tutorialSlug);
+          setTutorial(defaultTutorial);
+        }
+      } catch (err) {
+        console.error('Error fetching tutorial:', err);
+        // Fallback to default data on error
+        const defaultTutorial = getDefaultTutorial(tutorialSlug);
+        setTutorial(defaultTutorial);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (tutorialSlug) {
+      fetchTutorial();
+    }
+  }, [tutorialSlug]);
+
+  // Helper function to get default tutorial data
+  const getDefaultTutorial = (slug) => {
+    return defaultTutorials[slug] || null;
+  };
 
   // Default tutorial details
   const defaultTutorials = {
@@ -243,30 +294,6 @@ const TutorialDetail = () => {
       certification: 'Yes'
     }
   };
-
-  // Convert slug to key format
-  const tutorialKey = tutorialSlug?.toLowerCase().replace(/-/g, ' ').replace(/\s+/g, '-') || '';
-  
-  // Find tutorial by matching slug or name
-  const findTutorial = () => {
-    // Try exact match first
-    if (defaultTutorials[tutorialSlug]) {
-      return defaultTutorials[tutorialSlug];
-    }
-    
-    // Try matching by converting slug
-    for (const [key, value] of Object.entries(defaultTutorials)) {
-      if (key === tutorialSlug || 
-          key.replace(/-/g, ' ') === tutorialSlug?.replace(/-/g, ' ') ||
-          value.name.toLowerCase().replace(/\s+/g, '-') === tutorialSlug) {
-        return value;
-      }
-    }
-    
-    return null;
-  };
-
-  const tutorial = tutorialData || findTutorial();
 
   if (loading) {
     return (
