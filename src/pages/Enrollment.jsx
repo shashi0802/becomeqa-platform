@@ -3,6 +3,7 @@ import { useContentstackGlobal } from '../hooks/useContentstack';
 import { CONTENT_TYPES } from '../config/contentTypes';
 import { getFieldValue } from '../utils/contentHelpers';
 import contentstackService from '../services/contentstackService';
+import { notifyNewEnrollment } from '../services/slackService';
 import './Enrollment.css';
 
 const Enrollment = () => {
@@ -101,6 +102,9 @@ const Enrollment = () => {
         CONTENT_TYPES.ENROLLMENT_SUBMISSION,
         entryData
       );
+
+      // Send Slack notification
+      await notifyNewEnrollment(formData);
 
       console.log('Enrollment submitted successfully:', entryData);
       setIsSubmitted(true);
