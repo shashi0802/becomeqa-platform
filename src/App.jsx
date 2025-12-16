@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Tutorials from './pages/Tutorials';
+import TutorialDetail from './pages/TutorialDetail';
 import Training from './pages/Training';
 import Demo from './pages/Demo';
 import About from './pages/About';
@@ -17,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tutorials" element={<Tutorials />} />
-          <Route path="/tutorials/:tutorialName" element={<Tutorials />} />
+          <Route path="/tutorials/:tutorialSlug" element={<TutorialDetail />} />
           <Route path="/training" element={<Training />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/about" element={<About />} />

@@ -14,7 +14,8 @@ export const CONTENT_TYPES = {
   // Tutorials
   TUTORIAL: 'tutorial',
   TUTORIAL_CATEGORY: 'tutorial_category',
-TUTORIALS_PAGE: 'tutorials_page',
+  TUTORIALS_PAGE: 'tutorials_page',
+  TUTORIAL_DETAIL: 'tutorial_detail',
   TRAINING_PAGE: 'training_page',
 
   // Training
