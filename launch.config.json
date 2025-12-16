@@ -1,6 +1,0 @@
-{
-  "framework": "other",
-  "buildCommand": "npm install && npm run build",
-  "outputDirectory": "./dist",
-  "nodeVersion": "18"
-}
