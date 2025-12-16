@@ -1,11 +1,6 @@
 {
   "framework": "other",
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "environmentVariables": {
-    "VITE_CONTENTSTACK_API_KEY": "@vite_contentstack_api_key",
-    "VITE_CONTENTSTACK_MANAGEMENT_TOKEN": "@vite_contentstack_management_token",
-    "VITE_CONTENTSTACK_API_URL": "https://api.contentstack.io/v3"
-  }
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": "./dist",
+  "nodeVersion": "18"
 }
-
